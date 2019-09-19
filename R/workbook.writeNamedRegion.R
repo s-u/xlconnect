@@ -27,15 +27,15 @@
 #############################################################################
 
 setGeneric("writeNamedRegion",
-	function(object, data, name, header = TRUE, rownames = NULL) standardGeneric("writeNamedRegion"))
+	function(object, data, name, header = TRUE, rownames = NULL, worksheetName = .jnull(class = "java/lang/String")) standardGeneric("writeNamedRegion"))
 
 setMethod("writeNamedRegion", 
 	signature(object = "workbook", data = "ANY"), 
-	function(object, data, name, header = TRUE, rownames = NULL) {
+	function(object, data, name, header = TRUE, rownames = NULL, worksheetName = .jnull(class = "java/lang/String")) {
 		data <- includeRownames(data, rownames)
 		# pass data.frame's to Java - construct RDataFrameWrapper Java object references
 		data <- lapply(wrapList(data), dataframeToJava)
-		xlcCall(object, "writeNamedRegion", data, name, header, .simplify = FALSE)
+		xlcCall(object, "writeNamedRegion", data, name, header, worksheetName, .simplify = FALSE)
 		invisible()
 	}
 )
