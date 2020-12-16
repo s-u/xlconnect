@@ -26,6 +26,8 @@
 #
 #############################################################################
 
+J <- function(...) rJava::J(..., class.loader=.rJava.class.loader)
+
 .onLoad <- function(libname, pkgname) {
   
   javaCheck <- function() {
@@ -80,7 +82,7 @@
           e
         }
   )
-  .jpackage(name = pkgname, jars = "*", morePaths = sharedPaths)
+  .jpackage(name = pkgname, jars = "*", morePaths = sharedPaths, own.loader=TRUE)
   # Perform general XLConnect settings - pass package description
   XLConnectSettings(packageDescription(pkgname))
 }
